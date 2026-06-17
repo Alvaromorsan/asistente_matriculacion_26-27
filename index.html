@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente de Matriculación - IES Doctora Josefa de los Reyes</title>
+    <!-- Tailwind CSS para diseño moderno y adaptativo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para hermosos iconos visuales -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Estilos personalizados para animaciones y scroll decorativo -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        .font-friendly {
+            font-family: 'Fredoka', 'Plus Jakarta Sans', sans-serif;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top right, #eff6ff, #f0fdf4, #f8fafc);
+        }
+        .bounce-gentle {
+            animation: bounceMascot 3s ease-in-out infinite;
+        }
+        @keyframes bounceMascot {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
+        .slide-up {
+            animation: slideUpEffect 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideUpEffect {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen p-0 sm:p-6 text-slate-900">
+
+    <!-- CONTENEDOR PRINCIPAL: Formato Móvil con estética Premium y amigable -->
+    <div class="w-full max-w-md h-[100vh] sm:h-[860px] bg-white sm:rounded-[2.5rem] shadow-[0_25px_60px_-15px_rgba(30,41,59,0.15)] overflow-hidden flex flex-col border-4 border-slate-900 relative">
+        
+        <!-- CABECERA: Súper colorida y animada (Azul, Verde, Negro y Blanco) -->
+        <header class="bg-slate-900 text-white px-5 py-4 flex flex-col gap-2 shrink-0 border-b-4 border-emerald-500 relative">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <!-- Mascota Interactiva "Josefi" -->
+                    <div class="w-12 h-12 bg-emerald-400 rounded-2xl flex items-center justify-center border-2 border-white shadow-md relative bounce-gentle overflow-visible">
+                        <!-- SVG Mascota con carita -->
+                        <svg class="w-9 h-9" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="6" width="24" height="28" rx="6" fill="#FDE047" stroke="#0F172A" stroke-width="2.5"/>
+                            <path d="M12 34L20 38L28 34" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="#F59E0B"/>
+                            <circle cx="16" cy="18" r="3" fill="#0F172A"/>
+                            <circle cx="24" cy="18" r="3" fill="#0F172A"/>
+                            <path d="M17 24C17 24 18.5 26 20 26C21.5 26 23 24 23 24" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round"/>
+                            <!-- Chispitas de electricidad de la bombilla -->
+                            <path d="M4 14L8 15" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M36 14L32 15" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-blue-500 border-2 border-white rounded-full animate-ping"></span>
+                    </div>
+                    <div>
+                        <h1 class="text-sm font-extrabold tracking-tight text-emerald-400 font-friendly">IES DRA. JOSEFA</h1>
+                        <p class="text-xs text-slate-300 font-semibold">Asistente de Matrícula 💡</p>
+                    </div>
+                </div>
+                
+                <!-- Acciones Rápidas -->
+                <div class="flex items-center gap-1.5">
+                    <button onclick="playBeep(440, 'sine', 0.1); showLanguageSelector();" class="p-2 bg-slate-800 hover:bg-slate-700 active:scale-90 rounded-xl transition-all border border-slate-700" title="Cambiar idioma">
+                        <i data-lucide="languages" class="w-4.5 h-4.5 text-white"></i>
+                    </button>
+                    <button onclick="playBeep(520, 'sine', 0.1); openGithubGuide();" class="p-2 bg-blue-600 hover:bg-blue-500 active:scale-90 rounded-xl transition-all border border-blue-400 text-white" title="¿Cómo subir a GitHub?">
+                        <i data-lucide="github" class="w-4.5 h-4.5"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- SECCIÓN CENTRAL DE CONTENIDO (Scrollable) -->
+        <main id="app-main-content" class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-4 relative">
+            
+            <!-- PANTALLA INICIAL: SELECCIÓN DE IDIOMA CON MASCOTA GIGANTE -->
+            <div id="language-view" class="space-y-6 py-4 flex flex-col justify-between h-full">
+                <div class="text-center space-y-4">
+                    <div class="inline-flex p-4 bg-emerald-100 border-4 border-slate-900 rounded-3xl relative">
+                        <svg class="w-20 h-20 bounce-gentle" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="6" width="24" height="28" rx="6" fill="#FDE047" stroke="#0F172A" stroke-width="3"/>
+                            <path d="M12 34L20 38L28 34" stroke="#0F172A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#F59E0B"/>
+                            <circle cx="15" cy="18" r="3.5" fill="#0F172A"/>
+                            <circle cx="25" cy="18" r="3.5" fill="#0F172A"/>
+                            <path d="M16 23.5C16 23.5 18 26.5 20 26.5C22 26.5 24 23.5 24 23.5" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+                            <circle cx="11" cy="22" r="2" fill="#FCA5A5" opacity="0.6"/>
+                            <circle cx="29" cy="22" r="2" fill="#FCA5A5" opacity="0.6"/>
+                        </svg>
+                        <div class="absolute -top-3 -right-3 bg-blue-600 text-white text-xs px-2.5 py-1 rounded-full border-2 border-slate-900 font-bold rotate-12">
+                            ¡Hola! 👋
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <h2 class="text-2xl font-black font-friendly text-slate-900 leading-tight">Asistente Virtual</h2>
+                        <p class="text-slate-600 text-sm max-w-xs mx-auto font-medium">¡Te ayudamos con las fechas del proceso de matriculación de forma súper sencilla!</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border-3 border-slate-900 p-4 rounded-2xl shadow-[4px_4px_0px_#0f172a] space-y-3">
+                    <h3 class="text-xs font-extrabold text-slate-500 uppercase tracking-wider text-center">Selecciona tu idioma / Select Language</h3>
+                    <div class="grid grid-cols-1 gap-2 max-h-[260px] overflow-y-auto pr-1">
+                        <button onclick="setAppLanguage('es')" class="flex items-center justify-between p-3 bg-blue-50 hover:bg-blue-100 border-2 border-slate-900 rounded-xl font-bold text-slate-800 transition-all active:scale-95 text-left">
+                            <span class="flex items-center gap-3 text-sm">🇪🇸 Español (Castellano)</span>
+                            <span class="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-md">Entrar</span>
+                        </button>
+                        <button onclick="setAppLanguage('en')" class="flex items-center justify-between p-3 bg-emerald-50 hover:bg-emerald-100 border-2 border-slate-900 rounded-xl font-bold text-slate-800 transition-all active:scale-95 text-left">
+                            <span class="flex items-center gap-3 text-sm">🇬🇧 English (English)</span>
+                            <span class="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-md">Enter</span>
+                        </button>
+                        <button onclick="setAppLanguage('fr')" class="flex items-center justify-between p-3 bg-slate-50 hover:bg-slate-100 border-2 border-slate-900 rounded-xl font-bold text-slate-800 transition-all active:scale-95 text-left">
+                            <span class="flex items-center gap-3 text-sm">🇫🇷 Français (French)</span>
+                            <span class="bg-slate-700 text-white text-xs px-2 py-0.5 rounded-md">Entrer</span>
+                        </button>
+                        <button onclick="setAppLanguage('ar')" class="flex items-center justify-between p-3 bg-slate-50 hover:bg-slate-100 border-2 border-slate-900 rounded-xl font-bold text-slate-800 transition-all active:scale-95 text-left">
+                            <span class="flex items-center gap-3 text-sm">🇲🇦 العربية (Arabic)</span>
+                            <span class="bg-slate-700 text-white text-xs px-2 py-0.5 rounded-md">دخول</span>
+                        </button>
+                        <button onclick="setAppLanguage('zh')" class="flex items-center justify-between p-3 bg-slate-50 hover:bg-slate-100 border-2 border-slate-900 rounded-xl font-bold text-slate-800 transition-all active:scale-95 text-left">
+                            <span class="flex items-center gap-3 text-sm">🇨🇳 中文 (Chinese)</span>
+                            <span class="bg-slate-700 text-white text-xs px-2 py-0.5 rounded-md">进入</span>
+                        </button>
+                        <button onclick="setAppLanguage('uk')" class="flex items-center justify-between p-3 bg-slate-50 hover:bg-slate-100 border-2 border-slate-900 rounded-xl font-bold text-slate-800 transition-all active:scale-95 text-left">
+                            <span class="flex items-center gap-3 text-sm">🇺🇦 Українська (Ukrainian)</span>
+                            <span class="bg-slate-700 text-white text-xs px-2 py-0.5 rounded-md">Вхід</span>
+                        </button>
+                        <button onclick="setAppLanguage('ru')" class="flex items-center justify-between p-3 bg-slate-50 hover:bg-slate-100 border-2 border-slate-900 rounded-xl font-bold text-slate-800 transition-all active:scale-95 text-left">
+                            <span class="flex items-center gap-3 text-sm">🇷🇺 Русский (Russian)</span>
+                            <span class="bg-slate-700 text-white text-xs px-2 py-0.5 rounded-md">Вход</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VISTA DEL PANEL PRINCIPAL: Una vez seleccionado el idioma -->
+            <div id="dashboard-view" class="hidden space-y-4 slide-up">
+                
+                <!-- Burbuja de Bienvenida de Josefi -->
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shrink-0 border-2 border-emerald-400">
+                        <svg class="w-7 h-7" viewBox="0 0 40 40" fill="none">
+                            <rect x="8" y="6" width="24" height="28" rx="6" fill="#FDE047" stroke="#FFF" stroke-width="2"/>
+                            <circle cx="16" cy="18" r="3" fill="#000"/>
+                            <circle cx="24" cy="18" r="3" fill="#000"/>
+                            <path d="M17 24C17 24 18.5 26 20 26C21.5 26 23 24 23 24" stroke="#000" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="bg-slate-900 text-white p-4 rounded-2xl rounded-tl-none border-2 border-slate-800 text-sm leading-relaxed shadow-md relative">
+                        <div class="absolute left-0 top-3 w-0 h-0 border-t-[8px] border-t-transparent border-r-[12px] border-r-slate-900 border-b-[8px] border-b-transparent -translate-x-[11px]"></div>
+                        <p id="josefi-speech" class="font-medium">¡Hola! Selecciona qué proceso deseas consultar para ver todas las fechas y explicaciones.</p>
+                    </div>
+                </div>
+
+                <!-- SELECTOR DE CURSOS: Con botones gigantes y amigables -->
+                <div class="grid grid-cols-1 gap-3">
+                    <!-- Botón ESO: Azul Brillante -->
+                    <button onclick="playBeep(350, 'triangle', 0.15); selectCourse('eso');" class="group relative overflow-hidden bg-blue-600 hover:bg-blue-700 text-white p-5 rounded-3xl border-3 border-slate-900 shadow-[4px_4px_0px_#0f172a] hover:shadow-[1px_1px_0px_#0f172a] hover:translate-x-0.5 hover:translate-y-0.5 transition-all text-left flex items-center justify-between">
+                        <div class="space-y-1 z-10">
+                            <span class="bg-blue-400 text-slate-900 font-extrabold text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider">Educación Secundaria</span>
+                            <h3 class="text-2xl font-black font-friendly tracking-tight">📚 ESO</h3>
+                            <p class="text-xs text-blue-100 font-medium">Matrícula Ordinaria y Extraordinaria</p>
+                        </div>
+                        <div class="w-14 h-14 bg-blue-500 rounded-2xl flex items-center justify-center border-2 border-white/50 group-hover:rotate-6 transition-all">
+                            <i data-lucide="book-open" class="w-8 h-8 text-white"></i>
+                        </div>
+                    </button>
+
+                    <!-- Botón CFGB: Verde Esmeralda -->
+                    <button onclick="playBeep(450, 'triangle', 0.15); selectCourse('cfgb');" class="group relative overflow-hidden bg-emerald-500 hover:bg-emerald-600 text-slate-950 p-5 rounded-3xl border-3 border-slate-900 shadow-[4px_4px_0px_#0f172a] hover:shadow-[1px_1px_0px_#0f172a] hover:translate-x-0.5 hover:translate-y-0.5 transition-all text-left flex items-center justify-between">
+                        <div class="space-y-1 z-10">
+                            <span class="bg-slate-900 text-emerald-400 font-extrabold text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider">Grado Básico</span>
+                            <h3 class="text-2xl font-black font-friendly tracking-tight">⚡ CFGB Electricidad</h3>
+                            <p class="text-xs text-slate-800 font-medium">Proceso completo de admisión y matrícula</p>
+                        </div>
+                        <div class="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-emerald-400 group-hover:rotate-6 transition-all">
+                            <i data-lucide="zap" class="w-8 h-8 text-emerald-400 animate-pulse"></i>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- SECCIÓN: LÍNEAS DE TIEMPO INTERACTIVAS -->
+                <div id="timeline-container" class="hidden space-y-4 slide-up">
+                    <div class="flex items-center justify-between border-b-2 border-slate-200 pb-2">
+                        <h3 id="timeline-title" class="text-lg font-black font-friendly text-slate-900 flex items-center gap-2">
+                            <!-- Inyectado dinámicamente -->
+                        </h3>
+                        <button onclick="playBeep(300, 'sine', 0.1); printCalendar();" class="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1 bg-blue-100 px-2.5 py-1 rounded-lg">
+                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                            <span id="txt-print">Imprimir lista</span>
+                        </button>
+                    </div>
+
+                    <!-- Buscador interno rápido de fechas -->
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+                        </span>
+                        <input type="text" id="date-search" oninput="filterDates()" placeholder="Buscar trámite o fecha..." class="w-full pl-9 pr-4 py-2 text-sm bg-white border-2 border-slate-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold shadow-[2px_2px_0px_#0f172a]">
+                    </div>
+
+                    <!-- Contenedor donde se vuelcan los eventos -->
+                    <div id="timeline-steps" class="space-y-3">
+                        <!-- Pasos del proceso inyectados -->
+                    </div>
+                </div>
+
+                <!-- EXTRA INTERACTIVO: SIMULADOR DE FECHAS / PLANIFICADOR -->
+                <div class="bg-blue-50 border-3 border-blue-200 p-4 rounded-3xl space-y-3">
+                    <h4 class="font-extrabold text-sm text-blue-900 flex items-center gap-1.5 font-friendly">
+                        <i data-lucide="clock" class="w-4 h-4 text-blue-600"></i>
+                        <span id="txt-simulator-title">¿Qué trámite está activo hoy?</span>
+                    </h4>
+                    <p class="text-xs text-blue-700 font-medium" id="txt-simulator-desc">Selecciona una fecha ficticia para comprobar qué trámite o plazo oficial de la Junta de Andalucía corresponde a ese día.</p>
+                    <div class="flex gap-2">
+                        <input type="date" id="sim-date" class="flex-1 px-3 py-2 text-sm font-bold border-2 border-slate-900 rounded-xl" value="2026-07-01">
+                        <button onclick="simulateDate()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl active:scale-95 transition-transform shadow-[2px_2px_0px_#2563eb]">
+                            <span id="txt-sim-btn">Comprobar</span>
+                        </button>
+                    </div>
+                    <div id="sim-result" class="hidden p-3 bg-white border-2 border-slate-900 rounded-xl text-xs font-semibold space-y-1">
+                        <!-- Resultado de la simulación -->
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- PIE DE CONTROL (Acceso rápido de regreso y marca) -->
+        <footer class="bg-slate-900 text-white border-t-4 border-slate-900 p-4 shrink-0 flex items-center justify-between">
+            <button id="btn-back-main" onclick="playBeep(200, 'sine', 0.1); backToMain();" class="hidden bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border border-slate-700">
+                <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                <span id="txt-btn-back">Volver</span>
+            </button>
+            <div class="text-[10px] text-slate-400 font-bold ml-auto flex items-center gap-1">
+                <span>IES Dra. Josefa</span>
+                <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+                <span>Jerez</span>
+            </div>
+        </footer>
+
+        <!-- MODAL GUÍA DE GITHUB (Explicación detallada para subirlo) -->
+        <div id="github-guide-modal" class="hidden absolute inset-0 bg-slate-950/80 z-30 flex items-center justify-center p-4 backdrop-blur-xs">
+            <div class="bg-white border-4 border-slate-900 rounded-[2rem] w-full max-w-sm max-h-[90%] overflow-y-auto p-6 shadow-2xl space-y-4">
+                <div class="flex justify-between items-center border-b-2 border-slate-200 pb-2">
+                    <h3 class="font-black text-lg text-slate-900 flex items-center gap-2 font-friendly">
+                        <i data-lucide="github" class="w-6 h-6 text-slate-900"></i>
+                        ¡Consigue tu enlace web!
+                    </h3>
+                    <button onclick="closeGithubGuide()" class="p-1 hover:bg-slate-100 rounded-full border border-slate-200">
+                        <i data-lucide="x" class="w-5 h-5 text-slate-600"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-3 text-xs text-slate-700 leading-relaxed font-medium">
+                    <p class="text-slate-800 font-bold bg-yellow-100 p-2.5 rounded-xl border-2 border-slate-900">
+                        Sigue estos pasos rápidos en GitHub para tener un enlace que puedas compartir por WhatsApp con las familias del IES:
+                    </p>
+                    
+                    <ol class="list-decimal list-inside space-y-2.5 font-bold">
+                        <li>
+                            Regístrate gratis en <a href="https://github.com" target="_blank" class="text-blue-600 underline">github.com</a>.
+                        </li>
+                        <li>
+                            Haz clic en <span class="text-emerald-600">"New"</span> para crear un repositorio. Ponle el nombre que quieras (ej: <code class="bg-slate-100 px-1 py-0.5 rounded text-rose-600">matricula</code>).
+                        </li>
+                        <li>
+                            Márcalo como <span class="text-slate-900 underline">Public</span> y pulsa "Create repository".
+                        </li>
+                        <li>
+                            En tu nuevo repositorio, pulsa <span class="text-blue-600">"uploading an existing file"</span> y arrastra este archivo guardado con el nombre exacto <code class="bg-emerald-50 px-1.5 py-0.5 rounded text-emerald-700 border border-emerald-200">index.html</code>. Luego pulsa "Commit changes".
+                        </li>
+                        <li>
+                            Entra en la pestaña <span class="text-slate-900 font-extrabold">Settings</span> (Configuración) de ese repositorio.
+                        </li>
+                        <li>
+                            Busca la sección <span class="text-blue-600">Pages</span> en el menú lateral izquierdo.
+                        </li>
+                        <li>
+                            En "Branch", cambia <em>None</em> por <span class="bg-slate-900 text-white px-1.5 py-0.5 rounded">main</span> o <span class="bg-slate-900 text-white px-1.5 py-0.5 rounded">master</span> y pulsa <span class="font-black">Save</span>.
+                        </li>
+                    </ol>
+
+                    <div class="p-3 bg-emerald-50 rounded-2xl border-2 border-emerald-200 text-[11px] text-emerald-900">
+                        <strong>¡Listo!</strong> En un minuto, GitHub te dará un enlace arriba como: <br>
+                        <code class="font-mono text-blue-600 block mt-1 break-all bg-white p-1 border rounded">https://tu-usuario.github.io/matricula/</code>
+                    </div>
+                </div>
+
+                <button onclick="closeGithubGuide()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-sm shadow-[4px_4px_0px_#10b981] transition-transform active:scale-95">
+                    ¡Entendido, a por ello!
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CÓDIGO LOGICO DEL ASISTENTE (Lector de Idiomas y Base de Datos de Fechas) -->
+    <script>
+        // Efectos de sonido retro-interactivos alegres para gamificar la interfaz
+        let audioCtx = null;
+        function playBeep(frequency, type, duration) {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type || 'sine';
+                osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                // Navegador no soporta o requiere interacción previa
+            }
+        }
+
+        // Diccionario completo de idiomas oficiales
+        const dictionary = {
+            es: {
+                welcome: "¡Hola! Bienvenido/a al asistente de matriculación del **IES Doctora Josefa de los Reyes**. Te ayudaré con un lenguaje muy sencillo a conocer las fechas del proceso de admisión y matrícula de nuestro centro.",
+                speechEso: "Has seleccionado **ESO (Educación Secundaria Obligatoria)**. Aquí tienes el calendario oficial detallado. Pulsa en cada trámite para ver su explicación según la normativa de la Junta de Andalucía.",
+                speechCfgb: "Has seleccionado el **Ciclo Formativo de Grado Básico (CFGB) de Electricidad y Electrónica**. Este ciclo es una oportunidad fantástica. Revisa detenidamente cada fase y el estado del proceso.",
+                simActive: "Para la fecha seleccionada, el trámite activo o más cercano es:",
+                simInactive: "No hay plazos específicos activos para este curso en la fecha seleccionada. Comprueba los plazos generales de junio y julio.",
+                btnBack: "Volver",
+                printTitle: "Plazos Oficiales IES Josefa de los Reyes",
+                searchPlaceholder: "Buscar trámite o fecha...",
+                lblEso: "📚 Calendario ESO",
+                lblCfgb: "⚡ Calendario CFGB Electricidad",
+                phases: {
+                    eso: [
+                        {
+                            title: "Matriculación Ordinaria",
+                            date: "Del 1 al 10 de julio",
+                            desc: "Es el plazo principal. Todo el alumnado de nuestro centro y el nuevo asignado para la ESO debe formalizar la matrícula. Se recomienda hacerlo a través de la Secretaría Virtual de la Junta de Andalucía de forma rápida."
+                        },
+                        {
+                            title: "Certificación de matrícula",
+                            date: "13 de julio",
+                            desc: "La dirección del centro educativo comprueba y certifica oficialmente todas las matrículas que se han presentado correctamente durante el plazo ordinario."
+                        },
+                        {
+                            title: "Publicación de vacantes (tras certificación)",
+                            date: "20 de julio",
+                            desc: "El centro publica el listado de las plazas escolares que han quedado libres (vacantes) una vez terminado y certificado el periodo oficial de matrícula."
+                        },
+                        {
+                            title: "Matriculación extraordinaria",
+                            date: "Del 20 al 21 de julio",
+                            desc: "Un plazo muy breve y de urgencia para el alumnado que no pudo matricularse en el plazo ordinario o que ha obtenido plaza tras la publicación de vacantes libres."
+                        }
+                    ],
+                    cfgb: [
+                        {
+                            title: "Plazo de Admisión",
+                            date: "Del 15 al 30 de junio",
+                            desc: "Período oficial para presentar la solicitud de plaza en nuestro Grado Básico de Electricidad y Electrónica. ¡Imprescindible para nuevos alumnos!"
+                        },
+                        {
+                            title: "Matriculación de alumnos que promocionan o repiten",
+                            date: "Del 25 al 30 de junio",
+                            desc: "Si ya eres alumno de nuestro ciclo básico y vas a repetir curso o pasas a segundo año, debes formalizar tu matrícula en este periodo."
+                        },
+                        {
+                            title: "Relación provisional de solicitantes",
+                            date: "2 de julio",
+                            desc: "Se publica el listado de todas las personas que han solicitado entrar en nuestro ciclo. Es vital revisar que apareces en la lista y que tus datos son correctos."
+                        },
+                        {
+                            title: "Alegaciones de los solicitantes",
+                            date: "Del 3 al 6 de julio",
+                            desc: "Si detectas algún fallo en tu solicitud provisional o no apareces en la lista, puedes presentar una alegación en la secretaría del centro para corregirlo."
+                        },
+                        {
+                            title: "Relación definitiva de solicitantes",
+                            date: "9 de julio",
+                            desc: "Se publica el listado final ya corregido y definitivo de todas las personas que compiten por una plaza en el ciclo."
+                        },
+                        {
+                            title: "Primera Adjudicación oficial",
+                            date: "9 de julio",
+                            desc: "La Junta de Andalucía asigna las primeras plazas. Debes comprobar si has sido admitido/a en nuestro centro."
+                        },
+                        {
+                            title: "Matriculación o Reserva (1ª adjudicación)",
+                            date: "Del 10 al 15 de julio",
+                            desc: "Si has sido admitido/a en tu primera opción, debes matricularte obligatoriamente. Si te han dado otra opción, puedes hacer una 'reserva' para esperar a la siguiente lista."
+                        },
+                        {
+                            title: "Segunda Adjudicación oficial",
+                            date: "20 de julio",
+                            desc: "Segunda vuelta de reparto de plazas libres para el alumnado que quedó en lista de espera o hizo reserva."
+                        },
+                        {
+                            title: "Segunda Matriculación",
+                            date: "Del 21 al 23 de julio",
+                            desc: "Plazo definitivo para formalizar tu matrícula si has obtenido plaza en la segunda adjudicación. Si no lo haces, perderás tu plaza para siempre."
+                        }
+                    ]
+                }
+            },
+            en: {
+                welcome: "Hello! Welcome to the registration assistant of **IES Doctora Josefa de los Reyes**. I will help you with very simple words to know the admission and registration dates for our high school.",
+                speechEso: "You have selected **ESO (Compulsory Secondary Education)**. Here is the detailed official calendar. Tap on each procedure to see its explanation according to the Junta de Andalucía regulations.",
+                speechCfgb: "You have selected the **Basic Vocational Training (CFGB) of Electricity and Electronics**. This cycle is an amazing opportunity! Carefully check each phase and deadline.",
+                simActive: "For the selected date, the active or nearest deadline is:",
+                simInactive: "No specific deadlines are active on the selected date. Please check the general dates for June and July.",
+                btnBack: "Back",
+                printTitle: "Official Registration Deadlines IES Josefa de los Reyes",
+                searchPlaceholder: "Search procedure or date...",
+                lblEso: "📚 ESO Calendar",
+                lblCfgb: "⚡ CFGB Electricity Calendar",
+                phases: {
+                    eso: [
+                        {
+                            title: "Ordinary Enrollment",
+                            date: "July 1 to July 10",
+                            desc: "This is the main registration period. All current and newly assigned students for ESO must complete their enrollment. Online submission is highly recommended."
+                        },
+                        {
+                            title: "Enrollment Certification",
+                            date: "July 13",
+                            desc: "The school administration verifies and officially certifies all registration forms submitted during the ordinary period."
+                        },
+                        {
+                            title: "Publication of Vacant Places",
+                            date: "July 20",
+                            desc: "The high school publishes the official list of remaining school spots available after the ordinary enrollment process."
+                        },
+                        {
+                            title: "Extraordinary Enrollment",
+                            date: "July 20 to July 21",
+                            desc: "A very brief emergency period for students who could not register on time or got a place after vacant spots were published."
+                        }
+                    ],
+                    cfgb: [
+                        {
+                            title: "Admission Period",
+                            date: "June 15 to June 30",
+                            desc: "Official period to apply for a spot in our Basic Vocational Training of Electricity and Electronics. Crucial for new students!"
+                        },
+                        {
+                            title: "Enrollment for repeating or promoted students",
+                            date: "June 25 to June 30",
+                            desc: "If you are already a student of this cycle and need to repeat a year or promote to the 2nd year, register during this period."
+                        },
+                        {
+                            title: "Provisional Applicants List",
+                            date: "July 2",
+                            desc: "Publication of the list of all applicants. It is extremely important to verify that your name is on it and details are correct."
+                        },
+                        {
+                            title: "Appeals from applicants",
+                            date: "July 3 to July 6",
+                            desc: "If you detect any mistakes in your provisional details, submit an appeal at the high school secretary to get it fixed."
+                        },
+                        {
+                            title: "Definitive Applicants List",
+                            date: "July 9",
+                            desc: "The corrected and definitive list of all applicants competing for a spot is published."
+                        },
+                        {
+                            title: "First Official Allocation",
+                            date: "July 9",
+                            desc: "The Junta de Andalucía assigns the first round of seats. Check if you got admitted to our school."
+                        },
+                        {
+                            title: "First Enrollment or Reservation",
+                            date: "July 10 to July 15",
+                            desc: "If you got admitted into your 1st choice, you must register. If you got an alternative choice, you can make a 'reservation' to wait for improvements."
+                        },
+                        {
+                            title: "Second Official Allocation",
+                            date: "July 20",
+                            desc: "Second round of seat distribution for waitlisted or reserved students."
+                        },
+                        {
+                            title: "Second Enrollment Period",
+                            date: "July 21 to July 23",
+                            desc: "Final deadline to formalize registration if you obtained a spot in the second allocation. Otherwise, you will lose the spot."
+                        }
+                    ]
+                }
+            },
+            fr: {
+                welcome: "Bonjour ! Bienvenue dans l'assistant d'inscription de l'**IES Doctora Josefa de los Reyes**. Je vais vous aider à connaître facilement toutes les dates d'inscription.",
+                speechEso: "Vous avez sélectionné l'**ESO (Enseignement Secondaire Obligatoire)**. Voici le calendrier officiel détaillé.",
+                speechCfgb: "Vous avez sélectionné le **Cycle de Formation de Base (CFGB) en Électricité et Électronique**. Un excellent choix professionnel !",
+                simActive: "Pour la date sélectionnée, le délai actif est :",
+                simInactive: "Aucun délai spécifique actif pour cette date.",
+                btnBack: "Retour",
+                printTitle: "Dates Officielles IES Josefa de los Reyes",
+                searchPlaceholder: "Rechercher...",
+                lblEso: "📚 Calendrier ESO",
+                lblCfgb: "⚡ Calendrier CFGB Électricité",
+                phases: {
+                    eso: [
+                        { title: "Inscription Ordinaire", date: "Du 1er au 10 juillet", desc: "La période principale pour valider votre place." },
+                        { title: "Certification", date: "13 juillet", desc: "Vérification officielle des dossiers par l'établissement." },
+                        { title: "Places vacantes", date: "20 juillet", desc: "Publication des places restées libres." },
+                        { title: "Inscription extraordinaire", date: "Du 20 au 21 juillet", desc: "Délai de secours de 24h." }
+                    ],
+                    cfgb: [
+                        { title: "Admission", date: "Du 15 au 30 juin", desc: "Dépôt des dossiers de candidature." },
+                        { title: "Réinscription", date: "Du 25 au 30 juin", desc: "Pour les redoublants ou élèves passant en 2e année." },
+                        { title: "Liste Provisoire", date: "2 juillet", desc: "Première publication de contrôle des candidats." },
+                        { title: "Réclamations", date: "Du 3 au 6 juillet", desc: "Période pour contester ou corriger des erreurs." },
+                        { title: "Liste Définitive", date: "9 juillet", desc: "Liste officielle et définitive des candidats." },
+                        { title: "1ère Affectation", date: "9 juillet", desc: "Attribution des premières places." },
+                        { title: "1ère Inscription ou Réservation", date: "Du 10 au 15 juillet", desc: "Validation obligatoire de votre place." },
+                        { title: "2ème Affectation", date: "20 juillet", desc: "Seconde vague d'attribution de places." },
+                        { title: "2ème Inscription", date: "Du 21 au 23 juillet", desc: "Date limite ultime pour s'inscrire." }
+                    ]
+                }
+            },
+            ar: {
+                welcome: "مرحباً! أهلاً بك في مساعد التسجيل بـ **معهد دكتورة خوسيفا دي لوس رييس**. سأساعدك بلغة بسيطة لمعرفة مواعيد القبول والتسجيل.",
+                speechEso: "لقد اخترت **المرحلة الثانوية الإلزامية (ESO)**. إليك التقويم الرسمي بالتفصيل.",
+                speechCfgb: "لقد اخترت **التكوين المهني الأساسي (CFGB) في الكهرباء والإلكترونيات**. فرصة رائعة لمستقبلك!",
+                simActive: "بالنسبة للتاريخ المحدد، الموعد النهائي النشط هو:",
+                simInactive: "لا توجد مواعيد نشطة في هذا التاريخ. يرجى مراجعة مواعيد شهري يونيو ويوليو.",
+                btnBack: "رجوع",
+                printTitle: "مواعيد التسجيل الرسمية - معهد خوسيفا دي لوس رييس",
+                searchPlaceholder: "بحث...",
+                lblEso: "📚 تقويم ESO",
+                lblCfgb: "⚡ تقويم الكهرباء",
+                phases: {
+                    eso: [
+                        { title: "التسجيل العادي", date: "من 1 إلى 10 يوليو", desc: "هذا هو الوقت الرئيسي لتثبيت مقعدك في المدرسة." },
+                        { title: "تصديق وتثبيت الطلبات", date: "13 يوليو", desc: "تقوم إدارة المدرسة بمراجعة واعتماد جميع ملفات التسجيل." },
+                        { title: "إعلان المقاعد الشاغرة", date: "20 يوليو", desc: "نشر قائمة الأماكن المتبقية بعد انتهاء التسجيل العادي." },
+                        { title: "التسجيل الاستثنائي", date: "من 20 إلى 21 يوليو", desc: "فترة طوارئ قصيرة لمن لم يتمكن من التسجيل في الوقت المحدد." }
+                    ],
+                    cfgb: [
+                        { title: "فترة تقديم الطلبات والقبول", date: "من 15 إلى 30 يونيو", desc: "تقديم طلب الالتحاق بتخصص الكهرباء والإلكترونيات." },
+                        { title: "تسجيل المعيدين والمنتقلين", date: "من 25 إلى 30 يونيو", desc: "خاص بطلاب المعهد لإعادة السنة أو الانتقال للعام الثاني." },
+                        { title: "قائمة المتقدمين المؤقتة", date: "2 يوليو", desc: "نشر قائمة المتقدمين الأولية للتحقق من صحة البيانات." },
+                        { title: "تقديم الاعتراضات", date: "من 3 إلى 6 يوليو", desc: "تقديم شكوى لتصحيح الأخطاء في القائمة المؤقتة." },
+                        { title: "القائمة النهائية", date: "9 يوليو", desc: "القائمة الرسمية النهائية لجميع المتقدمين المقبولين." },
+                        { title: "التخصيص الأول للمقاعد", date: "9 يوليو", desc: "توزيع أول دفعة من المقاعد على الطلاب." },
+                        { title: "التسجيل الأول أو حجز المقعد", date: "من 10 إلى 15 يوليو", desc: "التسجيل الإلزامي أو حجز المقعد لانتظار الخيار الأفضل." },
+                        { title: "التخصيص الثاني للمقاعد", date: "20 يوليو", desc: "توزيع الدفعة الثانية والأخيرة من المقاعد الشاغرة." },
+                        { title: "التسجيل الثاني والأخير", date: "من 21 إلى 23 يوليو", desc: "الموعد النهائي الأخير للتسجيل قبل فقدان المقعد نهائياً." }
+                    ]
+                }
+            },
+            zh: {
+                welcome: "您好！欢迎使用 **IES Doctora Josefa de los Reyes** 入学注册助手。我将用非常通俗易懂的语言，为您提供我校初中(ESO)和基础职高(CFGB)的注册日期和政策说明。",
+                speechEso: "您已选择 **ESO（义务中等教育）**。这是官方的详细日程表，点击每条可查看政策解释。",
+                speechCfgb: "您已选择 **电气与电子基础职业教育(CFGB)**。这是一个绝佳的专业前景！请仔细查看注册时间。",
+                simActive: "在选定的日期，当前正在进行或最临近的流程是：",
+                simInactive: "在选定日期内没有正在进行的注册流程。请查看六月和七月的总体安排。",
+                btnBack: "返回",
+                printTitle: "IES Josefa de los Reyes 官方注册时间表",
+                searchPlaceholder: "搜索项目或日期...",
+                lblEso: "📚 ESO 注册表",
+                lblCfgb: "⚡ CFGB 电气专业表",
+                phases: {
+                    eso: [
+                        { title: "常规入学注册", date: "7月1日至10日", desc: "最主要的注册期。所有初中生必须在此期间提交材料，建议通过网上秘书处在线办理。" },
+                        { title: "注册资格审核与认证", date: "7月13日", desc: "学校管理部门对所有在常规注册期内提交的表格进行审核与官方确认。" },
+                        { title: "空余学位公布", date: "7月20日", desc: "学校官方公布常规注册结束后剩余未招满的学生学位。" },
+                        { title: "特别补录注册", date: "7月20日至21日", desc: "针对未能在常规时间注册或在空学位公布后获得录取的学生进行的紧急追加注册。" }
+                    ],
+                    cfgb: [
+                        { title: "录取申请递交期", date: "6月15日至30日", desc: "申请进入我校电气与电子基础职高专业的官方递交材料时期。" },
+                        { title: "留级或直接升学注册", date: "6月25日至30日", desc: "针对本校在读需要留级或直接升入二年级的学生的专属注册时间。" },
+                        { title: "申请人临时名单公布", date: "7月2日", desc: "公布所有申请人初步积分名单，家长必须核对名字和积分是否正确。" },
+                        { title: "临时名单纠错与申诉", date: "7月3日至6日", desc: "如果发现信息有误，必须在此期间向学校秘书处提交纠错申请。" },
+                        { title: "申请人确定名单公布", date: "7月9日", desc: "公布经过申诉和纠错后的最终确定申请人名单。" },
+                        { title: "第一批学位官方分配", date: "7月9日", desc: "官方公布第一批获得录取的学生分配名单。" },
+                        { title: "第一批注册或学位保留", date: "7月10日至15日", desc: "第一批录取学生必须办理注册。若等待更好志愿，必须办理‘学位保留’。" },
+                        { title: "第二批学位官方分配", date: "7月20日", desc: "针对第一批未招满的空余学位进行第二轮重新分配。" },
+                        { title: "第二批最终入学注册", date: "7月21日至23日", desc: "第二轮分配中获得录取的学生办理注册的最后截止期限。逾期将失去学位。" }
+                    ]
+                }
+            },
+            uk: {
+                welcome: "Вітаємо! Вас вітає помічник із реєстрації в **IES Doctora Josefa de los Reyes**. Я допоможу вам простою мовою дізнатися про всі дати та процедури вступу.",
+                speechEso: "Ви обрали **ESO (Середня обов'язкова освіта)**. Нижче наведено детальний офіційний календар.",
+                speechCfgb: "Ви обрали **Базовий цикл (CFGB) з електротехніки та електроніки**. Чудова можливість для вашого майбутнього!",
+                simActive: "Для обраної дати активним або найближчим терміном є:",
+                simInactive: "Немає активних конкретних термінів на цю дату. Будь ласка, перегляньте дати на червень та липень.",
+                btnBack: "Назад",
+                printTitle: "Офіційні терміни реєстрації IES Josefa de los Reyes",
+                searchPlaceholder: "Пошук...",
+                lblEso: "📚 Календар ESO",
+                lblCfgb: "⚡ Календар CFGB Електротехніка",
+                phases: {
+                    eso: [
+                        { title: "Звичайне зарахування", date: "З 1 по 10 липня", desc: "Основний період реєстрації для всіх учнів середньої школи." },
+                        { title: "Сертифікація реєстрацій", date: "13 липня", desc: "Офіційне підтвердження та затвердження списків учнів керівництвом закладу." },
+                        { title: "Вільні місця (вакансії)", date: "20 липня", desc: "Оприлюднення списку вільних місць, що залишилися після першої реєстрації." },
+                        { title: "Надзвичайне зарахування", date: "З 20 по 21 липня", desc: "Додатковий короткий термін для тих, хто не встиг подати документи вчасно." }
+                    ],
+                    cfgb: [
+                        { title: "Прийом заявок", date: "З 15 по 30 червня", desc: "Подання заяв на вступ до нашого курсу електротехніки." },
+                        { title: "Реєстрація повторників", date: "З 25 по 30 червня", desc: "Для учнів нашого закладу, які повторюють рік або переходять на 2-й курс." },
+                        { title: "Попередній список вступників", date: "2 липня", desc: "Перша публікація списку для перевірки даних та балів." },
+                        { title: "Подача апеляцій", date: "З 3 по 6 липня", desc: "Термін для виправлення помилок у попередніх реєстраційних даних." },
+                        { title: "Остаточний список", date: "9 липня", desc: "Затверджений і остаточний список вступників після розгляду скарг." },
+                        { title: "Перший розподіл місць", date: "9 липня", desc: "Офіційне оголошення перших зарахованих учнів." },
+                        { title: "Перша реєстрація або резерв", date: "З 10 по 15 липня", desc: "Обов'язкова реєстрація або підтвердження резерву місця." },
+                        { title: "Другий розподіл місць", date: "20 липня", desc: "Розподіл залишків вільних місць для черги очікування." },
+                        { title: "Друга остаточна реєстрація", date: "З 21 по 23 липня", desc: "Останній шанс підтвердити зарахування, інакше місце буде втрачено." }
+                    ]
+                }
+            },
+            ru: {
+                welcome: "Здравствуйте! Вас приветствует помощник по зачислению в **IES Doctora Josefa de los Reyes**. Я помогу вам простыми словами узнать все важные даты.",
+                speechEso: "Вы выбрали **ESO (Обязательное среднее образование)**. Перед вами подробный официальный календарь.",
+                speechCfgb: "Вы выбрали **Базовый профессиональный цикл (CFGB) по электротехнике и электронике**. Отличный старт для вашей карьеры!",
+                simActive: "Для выбранной даты активным или ближайшим сроком является:",
+                simInactive: "Нет активных сроков зачисления на эту дату. Пожалуйста, проверьте общий календарь на июнь и июль.",
+                btnBack: "Назад",
+                printTitle: "Официальные сроки зачисления IES Josefa de los Reyes",
+                searchPlaceholder: "Поиск...",
+                lblEso: "📚 Календарь ESO",
+                lblCfgb: "⚡ Календарь CFGB Электротехника",
+                phases: {
+                    eso: [
+                        { title: "Обычное зачисление", date: "С 1 по 10 июля", desc: "Основной период подачи документов для фиксации места в школе." },
+                        { title: "Сертификация зачислений", date: "13 июля", desc: "Официальное подтверждение и визирование поданных документов руководством школы." },
+                        { title: "Свободные места (вакансии)", date: "20 июля", desc: "Публикация списка оставшихся свободных учебных мест." },
+                        { title: "Дополнительное зачисление", date: "С 20 по 21 июля", desc: "Экстренный короткий срок зачисления для тех, кто пропустил основной." }
+                    ],
+                    cfgb: [
+                        { title: "Прием заявлений", date: "С 15 по 30 июня", desc: "Подача заявок на обучение по направлению электротехники и электроники." },
+                        { title: "Зачисление повторников", date: "С 25 по 30 июня", desc: "Для учеников нашего центра, остающихся на повторный год или переходящих на 2 курс." },
+                        { title: "Предварительный список", date: "2 июля", desc: "Первая публикация списка заявителей для проверки корректности данных." },
+                        { title: "Подача апелляций", date: "С 3 по 6 июля", desc: "Период исправления неточностей в предварительных списках." },
+                        { title: "Окончательный список", date: "9 июля", desc: "Утвержденный окончательный список всех допущенных к зачислению." },
+                        { title: "Первый этап распределения", date: "9 июля", desc: "Первое официальное распределение мест Хунтой Андалусии." },
+                        { title: "Первое зачисление или резерв", date: "С 10 по 15 июля", desc: "Обязательное зачисление по первому приоритету или резерв места." },
+                        { title: "Второй этап распределения", date: "20 июля", desc: "Распределение оставшихся мест для кандидатов из списка ожидания." },
+                        { title: "Второе зачисление", date: "С 21 по 23 июля", desc: "Крайний срок для подтверждения зачисления во втором раунде." }
+                    ]
+                }
+            }
+        };
+
+        let currentLang = 'es';
+        let currentCourse = null;
+
+        // Establecer el idioma de la aplicación y mostrar el Dashboard
+        function setAppLanguage(lang) {
+            playBeep(600, 'sine', 0.15);
+            currentLang = lang;
+            
+            // Ocultar pantalla de selección de idiomas
+            document.getElementById('language-view').classList.add('hidden');
+            
+            // Mostrar Dashboard principal
+            const dashboard = document.getElementById('dashboard-view');
+            dashboard.classList.remove('hidden');
+            
+            // Traducir bienvenida de Josefi
+            document.getElementById('josefi-speech').innerHTML = dictionary[currentLang].welcome;
+            
+            // Traducir textos estáticos de la interfaz
+            document.getElementById('date-search').placeholder = dictionary[currentLang].searchPlaceholder;
+            document.getElementById('txt-btn-back').innerText = dictionary[currentLang].btnBack;
+            document.getElementById('txt-print').innerText = dictionary[currentLang].printTitle ? "Imprimir" : "Print";
+            
+            // Si ya hay una línea de tiempo renderizada, la actualizamos
+            if (currentCourse) {
+                selectCourse(currentCourse);
+            }
+        }
+
+        // Mostrar selector de idiomas rápido en cualquier momento
+        function showLanguageSelector() {
+            document.getElementById('language-view').classList.remove('hidden');
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('btn-back-main').classList.add('hidden');
+            currentCourse = null;
+        }
+
+        // Seleccionar Curso (ESO o CFGB) y renderizar línea de tiempo interactiva
+        function selectCourse(course) {
+            currentCourse = course;
+            
+            // Actualizar burbuja de texto de Josefi
+            const speechText = course === 'eso' ? dictionary[currentLang].speechEso : dictionary[currentLang].speechCfgb;
+            document.getElementById('josefi-speech').innerHTML = speechText;
+
+            // Mostrar el contenedor de la línea de tiempo
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineContainer.classList.remove('hidden');
+
+            // Actualizar título
+            const titleEl = document.getElementById('timeline-title');
+            titleEl.innerHTML = course === 'eso' ? dictionary[currentLang].lblEso : dictionary[currentLang].lblCfgb;
+
+            // Renderizar los pasos
+            renderTimelineSteps();
+
+            // Mostrar botón de volver en el footer
+            document.getElementById('btn-back-main').classList.remove('hidden');
+            
+            // Auto scroll suave hasta la sección
+            timelineContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Renderizar los acordeones de la línea de tiempo
+        function renderTimelineSteps() {
+            const stepsContainer = document.getElementById('timeline-steps');
+            stepsContainer.innerHTML = '';
+
+            const phases = dictionary[currentLang].phases[currentCourse];
+
+            phases.forEach((phase, index) => {
+                const stepId = `step-${index}`;
+                const stepCard = document.createElement('div');
+                
+                // Color temático: Azul para ESO, Verde para CFGB
+                const borderColorClass = currentCourse === 'eso' ? 'border-blue-600' : 'border-emerald-500';
+                const headerBgClass = currentCourse === 'eso' ? 'bg-blue-50' : 'bg-emerald-50';
+                const iconColor = currentCourse === 'eso' ? 'text-blue-600' : 'text-emerald-700';
+
+                stepCard.className = `bg-white border-3 border-slate-900 rounded-2xl shadow-[3px_3px_0px_#0f172a] overflow-hidden transition-all duration-300 slide-up`;
+                stepCard.style.animationDelay = `${index * 50}ms`;
+
+                stepCard.innerHTML = `
+                    <button onclick="toggleAcordeon('${stepId}')" class="w-full p-4 text-left flex justify-between items-center gap-3 focus:outline-none focus:bg-slate-50 transition-colors">
+                        <div class="space-y-1">
+                            <span class="text-[11px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1">
+                                <span class="w-4 h-4 rounded-full bg-slate-900 text-white flex items-center justify-center text-[9px] font-bold">${index + 1}</span>
+                                Fase del proceso
+                            </span>
+                            <h4 class="font-extrabold text-sm text-slate-900 leading-tight">${phase.title}</h4>
+                            <p class="text-xs font-black ${iconColor} flex items-center gap-1.5 mt-1">
+                                <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                                ${phase.date}
+                            </p>
+                        </div>
+                        <span id="badge-${stepId}" class="p-1.5 bg-slate-100 rounded-xl border-2 border-slate-900 group-hover:bg-slate-200 transition-colors">
+                            <i id="icon-${stepId}" data-lucide="chevron-down" class="w-4.5 h-4.5 text-slate-900 transform transition-transform duration-200"></i>
+                        </span>
+                    </button>
+                    <div id="content-${stepId}" class="hidden px-4 pb-4 border-t-2 border-dashed border-slate-200 pt-3 bg-slate-50 text-xs text-slate-700 font-medium leading-relaxed">
+                        <p class="mb-2 text-slate-900 font-bold bg-white p-2 rounded-lg border-2 border-slate-200 shadow-inner flex items-start gap-1.5">
+                            <i data-lucide="info" class="w-4.5 h-4.5 text-blue-600 shrink-0"></i>
+                            <span>Explicación amigable de la Normativa:</span>
+                        </p>
+                        ${phase.desc}
+                    </div>
+                `;
+                stepsContainer.appendChild(stepCard);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Abrir y cerrar acordeones
+        function toggleAcordeon(stepId) {
+            playBeep(400, 'sine', 0.08);
+            const content = document.getElementById(`content-${stepId}`);
+            const icon = document.getElementById(`icon-${stepId}`);
+            const badge = document.getElementById(`badge-${stepId}`);
+
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+                badge.classList.remove('bg-slate-100');
+                badge.classList.add('bg-emerald-400');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+                badge.classList.remove('bg-emerald-400');
+                badge.classList.add('bg-slate-100');
+            }
+        }
+
+        // Filtrar trámites según el buscador
+        function filterDates() {
+            const query = document.getElementById('date-search').value.toLowerCase();
+            const phases = dictionary[currentLang].phases[currentCourse];
+
+            phases.forEach((phase, index) => {
+                const stepCard = document.getElementById(`step-${index}`).parentNode.parentNode;
+                const matches = phase.title.toLowerCase().includes(query) || 
+                                phase.date.toLowerCase().includes(query) || 
+                                phase.desc.toLowerCase().includes(query);
+                
+                if (matches) {
+                    stepCard.classList.remove('hidden');
+                } else {
+                    stepCard.classList.add('hidden');
+                }
+            });
+        }
+
+        // Regresar al Panel Principal
+        function backToMain() {
+            document.getElementById('timeline-container').classList.add('hidden');
+            document.getElementById('btn-back-main').classList.add('hidden');
+            document.getElementById('josefi-speech').innerHTML = dictionary[currentLang].welcome;
+            currentCourse = null;
+        }
+
+        // Simular fechas ficticias (Para jugar/demostrar a familias)
+        function simulateDate() {
+            playBeep(580, 'sine', 0.15);
+            const inputVal = document.getElementById('sim-date').value;
+            const simResult = document.getElementById('sim-result');
+            simResult.classList.remove('hidden');
+
+            if (!inputVal) return;
+
+            const selectedDate = new Date(inputVal);
+            const month = selectedDate.getMonth() + 1; // 1-12
+            const day = selectedDate.getDate();
+
+            let matchedPhase = null;
+            let activeCourse = currentCourse || 'eso';
+
+            // Comprobador lógico simple de fechas de Junio y Julio
+            if (activeCourse === 'eso') {
+                if (month === 7 && day >= 1 && day <= 10) {
+                    matchedPhase = dictionary[currentLang].phases.eso[0];
+                } else if (month === 7 && day === 13) {
+                    matchedPhase = dictionary[currentLang].phases.eso[1];
+                } else if (month === 7 && day === 20) {
+                    matchedPhase = dictionary[currentLang].phases.eso[2];
+                } else if (month === 7 && (day === 20 || day === 21)) {
+                    matchedPhase = dictionary[currentLang].phases.eso[3];
+                }
+            } else {
+                if (month === 6 && day >= 15 && day <= 30) {
+                    matchedPhase = dictionary[currentLang].phases.cfgb[0];
+                } else if (month === 6 && day >= 25 && day <= 30) {
+                    matchedPhase = dictionary[currentLang].phases.cfgb[1];
+                } else if (month === 7 && day === 2) {
+                    matchedPhase = dictionary[currentLang].phases.cfgb[2];
+                } else if (month === 7 && day >= 3 && day <= 6) {
+                    matchedPhase = dictionary[currentLang].phases.cfgb[3];
+                } else if (month === 7 && day === 9) {
+                    matchedPhase = dictionary[currentLang].phases.cfgb[4] + " / " + dictionary[currentLang].phases.cfgb[5];
+                } else if (month === 7 && day >= 10 && day <= 15) {
+                    matchedPhase = dictionary[currentLang].phases.cfgb[6];
+                } else if (month === 7 && day === 20) {
+                    matchedPhase = dictionary[currentLang].phases.cfgb[7];
+                } else if (month === 7 && day >= 21 && day <= 23) {
+                    matchedPhase = dictionary[currentLang].phases.cfgb[8];
+                }
+            }
+
+            if (matchedPhase) {
+                simResult.innerHTML = `
+                    <p class="text-slate-900 font-extrabold flex items-center gap-1 text-emerald-600">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                        ${dictionary[currentLang].simActive}
+                    </p>
+                    <p class="font-bold text-slate-800">${matchedPhase.title || matchedPhase}</p>
+                    <p class="text-[11px] text-slate-500">${matchedPhase.date || ""}</p>
+                `;
+            } else {
+                simResult.innerHTML = `<p class="text-rose-600 font-bold">${dictionary[currentLang].simInactive}</p>`;
+            }
+        }
+
+        // Ventana para imprimir / Guardar fechas
+        function printCalendar() {
+            if (!currentCourse) return;
+            const phases = dictionary[currentLang].phases[currentCourse];
+            let printText = `${dictionary[currentLang].printTitle}\n============================\n\n`;
+            
+            phases.forEach((phase, i) => {
+                printText += `${i+1}. ${phase.title}\n   Fecha: ${phase.date}\n   Info: ${phase.desc}\n\n`;
+            });
+
+            // Abrir en ventana nueva para impresión limpia
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`<pre style="font-family: monospace; padding: 20px;">${printText}</pre>`);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Modales de GitHub
+        function openGithubGuide() {
+            document.getElementById('github-guide-modal').classList.remove('hidden');
+        }
+        function closeGithubGuide() {
+            playBeep(250, 'sine', 0.1);
+            document.getElementById('github-guide-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
